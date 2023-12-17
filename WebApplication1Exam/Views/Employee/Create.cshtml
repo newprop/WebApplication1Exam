@@ -1,0 +1,92 @@
+﻿@model WebApplication1Exam.Models.EmployeeViewModel
+
+@{
+	ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<hr />
+<form asp-action="Create" enctype="multipart/form-data">
+	<div asp-validation-summary="All" class="text-danger"></div>
+	<div class="form-group">
+		<label asp-for="EmployeeName" class="control-label"></label>
+		<input asp-for="EmployeeName" class="form-control" placeholder="enter employee name" />
+		<span asp-validation-for="EmployeeName" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Designation" class="control-label"></label>
+		<select asp-for="Designation" class="form-control" asp-items="Html.GetEnumSelectList<Designation>()">
+		</select>
+		<span asp-validation-for="Designation" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Salary" class="control-label"></label>
+		<input asp-for="Salary" class="form-control" />
+		<span asp-validation-for="Salary" class="text-danger"></span>
+	</div>
+	<div class="form-group form-check">
+		<label class="form-check-label">
+			<input class="form-check-input" asp-for="IsPermanent" /> @Html.DisplayNameFor(model => model.IsPermanent)
+		</label>
+	</div>
+	<div class="form-group">
+		<label asp-for="ImageUpload" class="control-label"></label>
+		<input asp-for="ImageUpload" class="form-control" type="file" />
+		<span asp-validation-for="ImageUpload" class="text-danger"></span>
+	</div>
+
+	<table class="table table-responsive table-bordered">
+		<thead>
+			<tr>
+				<th>Company</th>
+				<th>Designation</th>
+				<th>Salary</th>
+				<th>
+					<input type="submit" class="btn btn-info" value="add" name="operation" />
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@for (int i = 0; i < Model.Experiences.Count; i++)
+			{
+				<tr>
+					<td>
+						<input asp-for="@Model.Experiences[i].Company" class="form-control" />
+					</td>
+					<td>
+						<select asp-for="@Model.Experiences[i].Designation" asp-items="Html.GetEnumSelectList<Designation>()" class="form-control">
+						</select>
+					</td>
+					<td>
+						<input asp-for="@Model.Experiences[i].Salary" step="1"  class="form-control" />
+					</td>
+					<td>
+						<button type="submit" class="btn btn-warning" value="delete-@i" name="opetation">Delete</button>
+					</td>
+				</tr>
+			}
+
+
+		</tbody>
+
+	</table>
+
+
+
+
+	<div class="form-group">
+		<input type="submit" value="Create" class="btn btn-primary" />
+	</div>
+</form>
+
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
